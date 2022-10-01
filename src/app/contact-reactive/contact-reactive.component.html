@@ -1,0 +1,43 @@
+<h1>Contact Form {{name}} {{(selectedCity$ | async)?.name}}</h1>
+<form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+    <div class="mb-4">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name"
+        required formControlName="name">
+        <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['required']" class="alert alert-danger">This field us required.</div>
+        <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['minlength']" 
+        class="alert alert-danger">Name must be longer than {{contactForm.get('name')?.errors?.['minlength'].requiredLength}} characters.</div>
+    </div>
+    <div class="mb-4 form-check">
+        <label for="chekcAdult" class="form-label">Are you over 18 years of age?</label>
+        <input type="checkbox" class="form-check-input " name="chekcAdult" 
+        id="chekcAdult" required formControlName="chekcAdult">
+        <div *ngIf="contactForm.get('chekcAdult')?.touched && contactForm.get('chekcAdult')?.errors?.['required']" class="alert alert-danger">This field us required.</div>
+        <!-- <div [hidden]="checkAdult.valid || checkAdult.pristine" class="alert alert-danger">This field us required.</div> -->
+    </div>
+    <div class="mb-4">
+        <label for="department" class="form-label">Department</label>
+        <select name="department" id="department" class="form-select form-select-sm" 
+        formControlName="department"> 
+            <option value="" selected disabled>Open this select menu</option>
+            <option *ngFor="let department of departments" value="{{department}}">{{department}}</option>
+            <!-- <option value="ventas">Ventas</option>
+            <option value="others">Others</option> -->
+        </select>
+    </div>
+    <div class="mb-4">
+        <label for="comment" class="form-label">Comment</label>
+        <textarea name="comment" class="form-control" id="comment" 
+         placeholder="Leave a comment...." formControlName="comment" 
+        required></textarea>
+        <div *ngIf="contactForm.get('comment')?.touched && contactForm.get('comment')?.errors?.['required']" class="alert alert-danger">This field us required.</div>
+        <!-- <div *ngIf="contactForm.get('comment')?.touched && contactForm.get('comment')?.errors?.['maxLength']" 
+        class="alert alert-danger">Comment less be longer than {{contactForm.get('comment')?.errors?.['maxLength'].requiredLength}} characters.</div> -->
+        <!-- <div [hidden]="comment.valid || comment.pristine" class="alert alert-danger">
+            This field us required.</div> -->
+    </div>
+    <div class="d-grid gap-2 col-4 float-end mb-4">
+        <button type="submit" class="btn btn-info btn-lg" [disabled]="contactForm.invalid" >Send</button>
+    </div>
+</form>
+
